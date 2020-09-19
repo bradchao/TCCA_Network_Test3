@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Log.v("bradlog", response);
+                        tv.setText(response);
                     }
                 },
                 new Response.ErrorListener() {
