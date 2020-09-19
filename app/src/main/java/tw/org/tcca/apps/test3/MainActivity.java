@@ -3,12 +3,14 @@ package tw.org.tcca.apps.test3;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.Contacts;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -53,6 +55,12 @@ public class MainActivity extends AppCompatActivity {
     private void initList(){
         adapter = new SimpleAdapter(this, data, R.layout.item, from, to);
         list.setAdapter(adapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                gotoDetail(i);
+            }
+        });
     }
 
     public void test1(View view) {
@@ -100,6 +108,11 @@ public class MainActivity extends AppCompatActivity {
             Log.v("bradlog", e.toString());
         }
 
+    }
+
+    private void gotoDetail(int i){
+        Intent intent = new Intent(this, DetailActivity.class);
+        startActivity(intent);
     }
 
     private void test0(){
