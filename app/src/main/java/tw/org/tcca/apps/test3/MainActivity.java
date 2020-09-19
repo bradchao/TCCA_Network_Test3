@@ -88,6 +88,11 @@ public class MainActivity extends AppCompatActivity {
                 rowData.put(from[0], row.getString("Name"));
                 rowData.put(from[1], row.getString("ProduceOrg"));
                 rowData.put(from[2], row.getString("ContactTel"));
+                rowData.put("Feature",row.getString("Feature"));
+                rowData.put("SalePlace",row.getString("SalePlace"));
+                rowData.put("Column1",row.getString("Column1"));
+
+
                 data.add(rowData);
             }
             adapter.notifyDataSetChanged();
