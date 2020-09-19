@@ -20,6 +20,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -52,7 +56,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void test1(View view) {
-        //test0();
+        //test0(); http://data.nhi.gov.tw/Datasets/Download.ashx?rid=A21030000I-D50001-001&l=https://data.nhi.gov.tw/resource/mask/maskdata.csv
+        //https://data.coa.gov.tw/Service/OpenData/ODwsv/ODwsvAgriculturalProduce.aspx
         StringRequest request = new StringRequest(
                 Request.Method.GET,
                 "https://data.coa.gov.tw/Service/OpenData/ODwsv/ODwsvAgriculturalProduce.aspx",
@@ -60,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Log.v("bradlog", response);
+                        parseJSON(response);
                     }
                 },
                 new Response.ErrorListener() {
@@ -70,6 +76,25 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
         queue.add(request);
+    }
+
+    private void parseJSON(String json){
+        data.clear();
+        try {
+            JSONArray root = new JSONArray(json);
+            for (int i=0; i<root.length(); i++){
+                JSONObject row = root.getJSONObject(i);
+                HashMap<String,String> rowData = new HashMap<>();
+                rowData.put(from[0], row.getString("Name"));
+                rowData.put(from[1], row.getString("ProduceOrg"));
+                rowData.put(from[2], row.getString("ContactTel"));
+                data.add(rowData);
+            }
+            adapter.notifyDataSetChanged();
+        } catch (JSONException e) {
+            Log.v("bradlog", e.toString());
+        }
+
     }
 
     private void test0(){
