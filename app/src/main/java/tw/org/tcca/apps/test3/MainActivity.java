@@ -34,7 +34,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 public class MainActivity extends AppCompatActivity {
-    private RequestQueue queue;
     private ListView list;
     private LinkedList<HashMap<String,String>> data = new LinkedList<>();
     private SimpleAdapter adapter;
@@ -48,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         list = findViewById(R.id.list);
-        queue = Volley.newRequestQueue(this);
         initList();
     }
 
@@ -83,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
-        queue.add(request);
+        MainApp.queue.add(request);
     }
 
     private void parseJSON(String json){
