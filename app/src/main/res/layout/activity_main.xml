@@ -14,6 +14,12 @@
         android:onClick="test1"
         android:text="Test1"
         />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="test2"
+        android:text="Test2"
+        />
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"

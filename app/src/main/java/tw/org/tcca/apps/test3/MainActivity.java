@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -27,6 +28,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -141,6 +144,37 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private UIHandler handler = new UIHandler();
+
+    public void test2(View view) {
+        BradInputStreamRequest request = new BradInputStreamRequest(
+                Request.Method.GET,
+                "https://pdfmyurl.com/?url=http://www.gamer.com.tw",
+                null,
+                new Response.Listener<byte[]>() {
+                    @Override
+                    public void onResponse(byte[] response) {
+                        try {
+                            FileOutputStream fout = openFileOutput("brad.pdf", MODE_PRIVATE);
+                            fout.write(response);
+                            fout.close();
+                            Log.v("bradlog", "save OK");
+                        } catch (Exception e) {
+                            Log.v("bradlog", "save XX");
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.v("bradlog", error.toString());
+                    }
+                }
+        );
+
+        request.setRetryPolicy(new DefaultRetryPolicy(10*1000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        MainApp.queue.add(request);
+    }
 
     private class UIHandler extends Handler {
         @Override
