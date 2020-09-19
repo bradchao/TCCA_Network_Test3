@@ -1,10 +1,16 @@
 package tw.org.tcca.apps.test3;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.provider.Contacts;
 import android.util.Log;
 import android.view.View;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -18,16 +24,31 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.LinkedList;
 
 public class MainActivity extends AppCompatActivity {
     private RequestQueue queue;
+    private ListView list;
+    private LinkedList<HashMap<String,String>> data = new LinkedList<>();
+    private SimpleAdapter adapter;
+    private String[] from = {"mesg"};
+    private int[] to = {R.id.mesg};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        list = findViewById(R.id.list);
         queue = Volley.newRequestQueue(this);
+        initList();
+    }
+
+    private void initList(){
+        adapter = new SimpleAdapter(this, data, R.layout.item, from, to);
+        list.setAdapter(adapter);
     }
 
     public void test1(View view) {
@@ -60,17 +81,31 @@ public class MainActivity extends AppCompatActivity {
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.connect();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    String line;
+                    String line; reader.readLine();
                     while ((line = reader.readLine()) != null){
-                        Log.v("bradlog", line);
+                        String[] rowData = line.split(",");
+                        HashMap<String,String> row = new HashMap<>();
+                        row.put(from[0],rowData[1]+":"+rowData[4]+":"+rowData[5]);
+                        data.add(row);
                     }
                     reader.close();
+                    handler.sendEmptyMessage(0);
                 }catch (Exception e){
-
+                    Log.v("bradlog", e.toString());
                 }
 
             }
         }.start();
+    }
+
+    private UIHandler handler = new UIHandler();
+
+    private class UIHandler extends Handler {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            adapter.notifyDataSetChanged();
+        }
     }
 
 }
