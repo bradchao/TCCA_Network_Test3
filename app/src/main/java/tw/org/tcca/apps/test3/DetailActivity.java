@@ -19,5 +19,8 @@ public class DetailActivity extends AppCompatActivity {
         salePlace = findViewById(R.id.salePlace);
         feature = findViewById(R.id.feature);
 
+        salePlace.setText(MainApp.detailData.get("SalePlace"));
+        feature.setText(MainApp.detailData.get("Feature"));
+
     }
 }

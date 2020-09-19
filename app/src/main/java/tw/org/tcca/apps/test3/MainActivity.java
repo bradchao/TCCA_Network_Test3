@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void gotoDetail(int i){
+        MainApp.detailData = data.get(i);
         Intent intent = new Intent(this, DetailActivity.class);
         startActivity(intent);
     }
