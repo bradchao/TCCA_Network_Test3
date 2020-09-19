@@ -6,10 +6,28 @@
     android:orientation="horizontal"
     >
     <TextView
-        android:id="@+id/mesg"
+        android:id="@+id/pname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:id="@+id/porg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            />
+        <TextView
+            android:id="@+id/ptel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            />
+
+    </RelativeLayout>
 
 </LinearLayout>

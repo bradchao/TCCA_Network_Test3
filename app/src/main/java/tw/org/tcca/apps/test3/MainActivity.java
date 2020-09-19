@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private ListView list;
     private LinkedList<HashMap<String,String>> data = new LinkedList<>();
     private SimpleAdapter adapter;
-    private String[] from = {"mesg"};
-    private int[] to = {R.id.mesg};
+    private String[] from = {"pname", "porg", "ptel"};
+    private int[] to = {R.id.pname, R.id.porg, R.id.ptel};
 
 
     @Override
@@ -52,24 +52,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void test1(View view) {
-        test0();
-//        StringRequest request = new StringRequest(
-//                Request.Method.GET,
-//                "https://data.nhi.gov.tw/resource/mask/maskdata.csv",
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        Log.v("bradlog", response);
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        Log.v("bradlog", error.toString());
-//                    }
-//                }
-//        );
-//        queue.add(request);
+        //test0();
+        StringRequest request = new StringRequest(
+                Request.Method.GET,
+                "https://data.coa.gov.tw/Service/OpenData/ODwsv/ODwsvAgriculturalProduce.aspx",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.v("bradlog", response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.v("bradlog", error.toString());
+                    }
+                }
+        );
+        queue.add(request);
     }
 
     private void test0(){
